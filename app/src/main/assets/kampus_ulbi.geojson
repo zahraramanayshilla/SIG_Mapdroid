@@ -1,0 +1,402 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "Gerbang Depan",
+        "kategori": "Gerbang",
+        "marker-color": "rgba(255, 247, 125, 1)",
+        "gerbang ": "depan"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.576401,
+          -6.8735166
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "Gedung Pos",
+        "Gedung": "Pos",
+        "kategori": "Gedung",
+        "fill": "#2f8276",
+        "stroke": "#1b534b"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              107.576024,
+              -6.8732745
+            ],
+            [
+              107.5762802,
+              -6.8733229
+            ],
+            [
+              107.5762229,
+              -6.8736987
+            ],
+            [
+              107.5759648,
+              -6.8736598
+            ],
+            [
+              107.576024,
+              -6.8732745
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "Gedung Vokasi",
+        "Gedung": "Vokasi",
+        "kategori": "Gedung",
+        "keterangan": "Kelas lantai bawah",
+        "fill": "#3b82f6",
+        "stroke": "#1d4ed8"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              107.5755066,
+              -6.8725569
+            ],
+            [
+              107.5758763,
+              -6.8725949
+            ],
+            [
+              107.5758317,
+              -6.8730527
+            ],
+            [
+              107.5754577,
+              -6.8730084
+            ],
+            [
+              107.5755066,
+              -6.8725569
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "Gedung FLTB",
+        "Gedung": "FLTB",
+        "kategori": "Gedung",
+        "fill": "#822f39",
+        "stroke": "#5b1d24"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              107.5761631,
+              -6.8724958
+            ],
+            [
+              107.5765074,
+              -6.8725337
+            ],
+            [
+              107.5764373,
+              -6.8729978
+            ],
+            [
+              107.5761079,
+              -6.8729557
+            ],
+            [
+              107.5761079,
+              -6.8729557
+            ],
+            [
+              107.5761631,
+              -6.8724958
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "Gedung Rektorat",
+        "Gedung ": "Rektorat",
+        "kategori": "Gedung",
+        "fill": "#827f2f",
+        "stroke": "#535118"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              107.5752513,
+              -6.8732122
+            ],
+            [
+              107.5758253,
+              -6.8732679
+            ],
+            [
+              107.5758013,
+              -6.8736601
+            ],
+            [
+              107.5752193,
+              -6.8735912
+            ],
+            [
+              107.5752513,
+              -6.8732122
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "Student Centre",
+        "Studen": "Centre",
+        "kategori": "Gedung",
+        "fill": "#822f81",
+        "stroke": "#541b53"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              107.5751553,
+              -6.8731854
+            ],
+            [
+              107.5751038,
+              -6.8735759
+            ],
+            [
+              107.5751926,
+              -6.8735901
+            ],
+            [
+              107.5752298,
+              -6.8732149
+            ],
+            [
+              107.5751553,
+              -6.8731854
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "Jalan Vokasi - FLTB",
+        "kategori": "Jalan",
+        "stroke": "#822f2f",
+        "Jalan ": "jalan Vokasi-fltb"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            107.5754721,
+            -6.8727439
+          ],
+          [
+            107.5751883,
+            -6.8727283
+          ],
+          [
+            107.5751851,
+            -6.8730758
+          ],
+          [
+            107.5759199,
+            -6.8731572
+          ],
+          [
+            107.5759451,
+            -6.8729944
+          ],
+          [
+            107.5762762,
+            -6.8730414
+          ],
+          [
+            107.5762731,
+            -6.8729725
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "Jalan ke Pos",
+        "kategori": "Jalan",
+        "stroke": "#0284c7",
+        "Jalan POS": "jalan Ke pos"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            107.5757975,
+            -6.8734924
+          ],
+          [
+            107.5759165,
+            -6.8735
+          ],
+          [
+            107.5759625,
+            -6.8732333
+          ],
+          [
+            107.576139,
+            -6.87326
+          ],
+          [
+            107.576139,
+            -6.8733057
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "Jalur Penghubung Kampus",
+        "kategori": "Jalan",
+        "stroke": "#30822f"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            107.575633,
+            -6.8730358
+          ],
+          [
+            107.5756198,
+            -6.8731187
+          ],
+          [
+            107.5756023,
+            -6.8731885
+          ],
+          [
+            107.5758834,
+            -6.8732234
+          ],
+          [
+            107.5758527,
+            -6.873376
+          ],
+          [
+            107.5758175,
+            -6.873376
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "Sekre Himatif",
+        "kategori": "Fasilitas / POI",
+        "Sekre": "Himatif",
+        "marker-color": "#e11d48"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.5751563,
+          -6.8734906
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "Jalan Pintu Depan - Rektorat",
+        "kategori": "Jalan",
+        "stroke": "#822f77",
+        "Jalan pintu depan-rektor": "Jalan pintu depan-rektor"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            107.5764067,
+            -6.8735053
+          ],
+          [
+            107.5764105,
+            -6.8733434
+          ],
+          [
+            107.5764143,
+            -6.8731815
+          ],
+          [
+            107.5761792,
+            -6.8731213
+          ],
+          [
+            107.5761451,
+            -6.8732003
+          ],
+          [
+            107.5761223,
+            -6.873238
+          ],
+          [
+            107.5758834,
+            -6.8732003
+          ],
+          [
+            107.5758265,
+            -6.8733697
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "nama": "Ruang Kelas Kampus",
+        "kategori": "Fasilitas / POI",
+        "kelas": "kelas",
+        "marker-color": "#f59e0b"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          107.575774,
+          -6.8729741
+        ]
+      }
+    }
+  ]
+}

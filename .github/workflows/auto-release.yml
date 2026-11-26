@@ -1,0 +1,101 @@
+name: Auto Tag & Release APK
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build & Release Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.6'
+
+      - name: Grant Execute Permission for Gradlew
+        run: chmod +x ./gradlew || true
+
+      - name: Build Android APK
+        run: |
+          echo "Memulai proses build Android APK dengan Gradle..."
+          if [ -f "./gradlew" ] && [ -f "./gradle/wrapper/gradle-wrapper.jar" ]; then
+            ./gradlew assembleDebug --no-daemon --stacktrace
+          else
+            gradle assembleDebug --no-daemon --stacktrace
+          fi
+
+      - name: Generate Auto Tag & Prepare APK
+        id: tag_apk
+        run: |
+          # Dapatkan tag rilis semantik terakhir (misal v1.0.0)
+          LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
+          if [ -z "$LATEST_TAG" ]; then
+            NEW_TAG="v1.0.0"
+          else
+            VERSION=${LATEST_TAG#v}
+            MAJOR=$(echo "$VERSION" | cut -d. -f1)
+            MINOR=$(echo "$VERSION" | cut -d. -f2)
+            PATCH=$(echo "$VERSION" | cut -d. -f3)
+            NEW_PATCH=$((PATCH + 1))
+            NEW_TAG="v${MAJOR}.${MINOR}.${NEW_PATCH}"
+          fi
+          echo "Tag rilis otomatis baru: $NEW_TAG"
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
+
+          # Temukan berkas APK hasil kompilasi
+          APK_PATH=$(find app/build/outputs/apk -type f -name "*.apk" | head -n 1)
+          if [ -z "$APK_PATH" ]; then
+            echo "Error: Berkas APK tidak ditemukan di app/build/outputs/apk!"
+            exit 1
+          fi
+          echo "Ditemukan APK: $APK_PATH"
+          cp "$APK_PATH" "SIG_Mapdroid-${NEW_TAG}.apk"
+          echo "Berkas APK rilis siap: SIG_Mapdroid-${NEW_TAG}.apk"
+
+      - name: Create GitHub Release & Upload APK Asset
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$NEW_TAG" "SIG_Mapdroid-${NEW_TAG}.apk" \
+            --target "${{ github.sha }}" \
+            --title "SIG Mapdroid $NEW_TAG" \
+            --notes "🚀 **SIG Mapdroid Release $NEW_TAG**
+
+            Aplikasi Android Sistem Informasi Geografis (SIG) interaktif menggunakan **MapLibre.org**.
+
+            ### 📱 Detail Rilis:
+            - **Nama Aplikasi:** SIG Mapdroid
+            - **Versi:** \`$NEW_TAG\`
+            - **Commit SHA:** \`${{ github.sha }}\`
+            - **Engine Peta:** MapLibre Native Android SDK
+            - **Target Platform:** Android 5.0 (API 21) - Android 14 (API 34)
+
+            ### ✨ Fitur Unggulan:
+            - Visualisasi Peta Vektor & Raster MapLibre.org
+            - Pemetaan Data Spasial Kampus ULBI (Bangunan, Jalan, Fasilitas/POI)
+            - Pelacakan Posisi Pengguna Realtime via GPS
+            - Multi-Basemap Switcher (OpenStreetMap, Carto, MapLibre Demo)
+            - Dialog Informasi Atribut Objek Spasial Interaktif
+
+            ### ⬇️ Unduh Berkas APK:
+            Unduh berkas **\`SIG_Mapdroid-$NEW_TAG.apk\`** yang terlampir pada rilis ini untuk memasang langsung di perangkat Android Anda."

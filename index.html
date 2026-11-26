@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIG Mapdroid — Aplikasi Android SIG & Peta Interaktif MapLibre</title>
+  
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- MapLibre GL JS -->
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- Navigation Bar -->
+  <header class="sticky top-0 z-50 glass-card border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-sky-400 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+          <i data-lucide="map-pin" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight text-slate-900">SIG <span class="text-brand-600">Mapdroid</span></span>
+          <span class="hidden sm:inline-block ml-2 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider rounded-full bg-brand-100 text-brand-700">MapLibre Native</span>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
+        <a href="#fitur" class="hover:text-brand-600 transition">Fitur</a>
+        <a href="#peta" class="hover:text-brand-600 transition">Peta Web</a>
+        <a href="#panduan" class="hover:text-brand-600 transition">Panduan Instalasi</a>
+        <a href="#tentang" class="hover:text-brand-600 transition">Tentang</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <a id="btn-download-nav" href="https://github.com/zahraramanayshilla/SIG_Mapdroid/releases" class="inline-flex items-center space-x-2 px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold shadow-sm hover:shadow transition transform active:scale-95">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>Unduh APK</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.brand.100),theme(colors.slate.50))] opacity-60"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Hero Content -->
+        <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+          <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-brand-50 border border-brand-200 text-brand-700 text-xs font-semibold">
+            <span class="flex h-2 w-2 rounded-full bg-brand-600 animate-ping"></span>
+            <span>Didukung MapLibre.org & CrootJS</span>
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+            Eksplorasi Peta SIG Kampus dalam Genggaman <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-sky-500">Android</span>
+          </h1>
+
+          <p class="text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+            Aplikasi Android Sistem Informasi Geografis (SIG) berbasis MapLibre Native SDK. Visualisasikan poligon gedung kampus, rute jalan, titik fasilitas, dan pelacakan GPS secara cepat dan presisi.
+          </p>
+
+          <!-- Download Action Area -->
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            <a id="btn-download-hero" href="https://github.com/zahraramanayshilla/SIG_Mapdroid/releases" class="w-full sm:w-auto inline-flex items-center justify-center space-x-3 px-8 py-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-base shadow-lg shadow-brand-600/30 hover:shadow-xl hover:shadow-brand-600/40 transition transform active:scale-95">
+              <i data-lucide="download" class="w-5 h-5"></i>
+              <span>Unduh APK Terbaru</span>
+              <span id="badge-version" class="px-2 py-0.5 text-xs font-bold rounded bg-brand-700/80 text-brand-100">v1.0.0</span>
+            </a>
+
+            <a href="#peta" class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-4 rounded-xl bg-white hover:bg-slate-50 text-slate-700 font-semibold text-base border border-slate-300 shadow-sm transition">
+              <i data-lucide="map" class="w-5 h-5 text-brand-600"></i>
+              <span>Buka Peta Web</span>
+            </a>
+          </div>
+
+          <!-- Quick Metadata Chips -->
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4 text-xs font-medium text-slate-500">
+            <div class="flex items-center space-x-1.5">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
+              <span>Ukuran: <strong id="badge-size" class="text-slate-700 font-bold">~15 MB</strong></span>
+            </div>
+            <div class="flex items-center space-x-1.5">
+              <i data-lucide="smartphone" class="w-4 h-4 text-brand-600"></i>
+              <span>Android 5.0 - 14+</span>
+            </div>
+            <div class="flex items-center space-x-1.5">
+              <i data-lucide="shield-check" class="w-4 h-4 text-purple-600"></i>
+              <span>Open Source & Aman</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Hero Preview Card -->
+        <div class="lg:col-span-5">
+          <div class="relative mx-auto max-w-sm rounded-3xl bg-slate-900 p-4 shadow-2xl ring-1 ring-slate-800">
+            <!-- Simulated Mobile App Container -->
+            <div class="relative rounded-2xl overflow-hidden bg-slate-800 text-white border border-slate-700">
+              
+              <!-- App Bar Simulation -->
+              <div class="bg-brand-600 px-4 py-3 flex items-center justify-between shadow">
+                <div class="flex items-center space-x-2">
+                  <i data-lucide="compass" class="w-5 h-5 text-white"></i>
+                  <span class="font-bold text-sm">SIG Mapdroid Mobile</span>
+                </div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-brand-700 text-white font-mono">MapLibre</span>
+              </div>
+
+              <!-- Map Simulation Preview Graphic -->
+              <div class="relative h-64 bg-slate-100 overflow-hidden flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=800&q=80" alt="Map Preview" class="w-full h-full object-cover filter brightness-90">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
+                
+                <!-- Floating Pin Overlay -->
+                <div class="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center animate-bounce">
+                  <div class="px-2.5 py-1 rounded-lg bg-brand-600 text-white text-xs font-bold shadow-lg">Gedung Pos ULBI</div>
+                  <div class="w-3 h-3 bg-brand-600 rotate-45 -mt-1.5"></div>
+                </div>
+
+                <!-- Simulation Controls -->
+                <div class="absolute bottom-3 right-3 flex flex-col space-y-2">
+                  <div class="w-8 h-8 rounded-full bg-white text-brand-600 shadow flex items-center justify-center font-bold text-sm">+</div>
+                  <div class="w-8 h-8 rounded-full bg-white text-brand-600 shadow flex items-center justify-center font-bold text-sm">-</div>
+                  <div class="w-8 h-8 rounded-full bg-brand-600 text-white shadow flex items-center justify-center">
+                    <i data-lucide="crosshair" class="w-4 h-4"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- App Card Footer Details -->
+              <div class="p-4 bg-slate-900 space-y-2">
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-slate-400">Status Rilis (via CrootJS):</span>
+                  <span id="release-status-text" class="text-emerald-400 font-semibold flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Siap Diunduh
+                  </span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-slate-400">Versi Terakhir:</span>
+                  <span id="release-tag-display" class="font-mono text-white font-bold">v1.0.0</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-slate-400">Terakhir Diperbarui:</span>
+                  <span id="release-date-display" class="text-slate-300">23 November 2026</span>
+                </div>
+                <a id="btn-download-card" href="https://github.com/zahraramanayshilla/SIG_Mapdroid/releases" class="mt-3 block w-full py-2.5 px-3 rounded-lg bg-brand-600 hover:bg-brand-500 text-center font-bold text-xs text-white transition">
+                  Unduh Berkas APK (.apk)
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Web Map Section (Requirement 3: maplibre.org) -->
+  <section id="peta" class="py-16 bg-white border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Aplikasi Peta Interaktif (MapLibre.org)</h2>
+        <p class="mt-2 text-base text-slate-600">
+          Uji coba data spasial kampus ULBI langsung di web browser. Fitur ini menggunakan engine rendering vektor terbuka dari <strong>MapLibre GL JS</strong>.
+        </p>
+      </div>
+
+      <!-- Map Container Card -->
+      <div class="glass-card rounded-2xl p-4 shadow-xl border border-slate-200">
+        
+        <!-- Controls Toolbar -->
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4 pb-3 border-b border-slate-200 text-xs sm:text-sm">
+          
+          <!-- Basemap Buttons -->
+          <div class="flex items-center space-x-2">
+            <span class="font-bold text-slate-700 hidden sm:inline">Gaya Peta:</span>
+            <button onclick="setWebBasemap('osm')" class="px-3 py-1.5 rounded-lg bg-brand-50 hover:bg-brand-100 text-brand-700 font-semibold border border-brand-200 transition">
+              OpenStreetMap
+            </button>
+            <button onclick="setWebBasemap('voyager')" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium border border-slate-200 transition">
+              Carto Voyager
+            </button>
+            <button onclick="setWebBasemap('dark')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-900 text-white font-medium transition">
+              Dark Mode
+            </button>
+          </div>
+
+          <!-- Layer Toggles -->
+          <div class="flex items-center space-x-4 text-slate-600">
+            <label class="flex items-center space-x-1.5 cursor-pointer">
+              <input type="checkbox" checked onchange="toggleLayer('kampus-buildings-fill', this)" class="rounded text-brand-600 focus:ring-brand-500">
+              <span class="font-medium text-xs">Gedung</span>
+            </label>
+            <label class="flex items-center space-x-1.5 cursor-pointer">
+              <input type="checkbox" checked onchange="toggleLayer('kampus-roads-line', this)" class="rounded text-brand-600 focus:ring-brand-500">
+              <span class="font-medium text-xs">Jalan</span>
+            </label>
+            <label class="flex items-center space-x-1.5 cursor-pointer">
+              <input type="checkbox" checked onchange="toggleLayer('kampus-points-circle', this)" class="rounded text-brand-600 focus:ring-brand-500">
+              <span class="font-medium text-xs">Titik / POI</span>
+            </label>
+            
+            <button onclick="recenterWebMap()" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1 border border-slate-300">
+              <i data-lucide="crosshair" class="w-3.5 h-3.5 text-brand-600"></i>
+              <span>Pusatkan</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- The Map Container -->
+        <div id="map" class="relative"></div>
+
+        <div class="mt-3 flex flex-wrap items-center justify-between text-xs text-slate-500 px-2">
+          <span>💡 <em>Klik pada bangunan atau titik untuk melihat informasi atribut detail.</em></span>
+          <span>Koordinat Kampus: <strong>-6.8732° LS, 107.5758° BT</strong> (Bandung)</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Fitur Unggulan (Features) -->
+  <section id="fitur" class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Fitur Unggulan SIG Mapdroid</h2>
+        <p class="mt-2 text-base text-slate-600">
+          Dirancang untuk memberikan kemudahan eksplorasi data geospasial pada lingkungan akademik dan lapangan.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition">
+          <div class="w-12 h-12 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center mb-4">
+            <i data-lucide="layers" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Engine MapLibre Native</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Rendering peta vektor dan raster dengan akselerasi hardware OpenGL/Vulkan, menjamin pergerakan peta 60 FPS mulus dan hemat konsumsi daya baterai.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition">
+          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+            <i data-lucide="navigation" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Pelacakan GPS Presisi</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Terhubung langsung dengan sensor GPS perangkat mobile Android Anda untuk mendeteksi posisi secara tepat, lengkap dengan mode kompas orientasi arah.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition">
+          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
+            <i data-lucide="database" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Visualisasi GeoJSON Lengkap</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Mendukung layer spasial poligon (gedung kampus), garis jalur (jalan penghubung), dan titik fasilitas POI dengan atribut kustom yang dapat diperiksa.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition">
+          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4">
+            <i data-lucide="git-branch" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">CI/CD Auto Release</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Setiap perubahan kode yang di-push ke branch utama akan otomatis di-build oleh GitHub Actions, dibuatkan tag rilis semantik baru, dan APK siap diunduh seketika.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition">
+          <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mb-4">
+            <i data-lucide="zap" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Integrasi CrootJS Dinamis</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            Landing page menggunakan modul mikro CrootJS (jscroot) untuk mengambil status dan URL unduhan rilis APK terbaru secara langsung dari GitHub API tanpa ketergantungan berat.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition">
+          <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-4">
+            <i data-lucide="wifi-off" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Bebas Lisensi & Offline Friendly</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">
+            100% open source tanpa kewajiban token berbayar komersial. Data spasial aset lokal disematkan langsung di dalam berkas instalasi APK.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Panduan Lengkap Instalasi & Penggunaan (Requirement 2) -->
+  <section id="panduan" class="py-16 bg-white border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-semibold uppercase tracking-wider">Panduan Langkah Demi Langkah</span>
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight mt-2">Cara Mengunduh, Memasang & Menggunakan Aplikasi</h2>
+        <p class="mt-2 text-base text-slate-600">
+          Ikuti petunjuk praktis berikut untuk memasang file APK pada smartphone Android Anda.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        
+        <!-- Step 1: Download & Install -->
+        <div class="glass-card rounded-2xl p-8 border border-slate-200 shadow-sm">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold">1</div>
+            <h3 class="text-xl font-bold text-slate-900">Panduan Instalasi APK Android</h3>
+          </div>
+
+          <ol class="space-y-4 text-sm text-slate-600">
+            <li class="flex items-start space-x-3">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-slate-100 text-slate-700 font-bold flex items-center justify-center text-xs mt-0.5">A</span>
+              <div>
+                <strong class="text-slate-800">Unduh Berkas APK:</strong>
+                <p>Klik tombol <em>"Unduh APK Terbaru"</em> pada halaman ini atau buka tab <em>Releases</em> di repositori GitHub.</p>
+              </div>
+            </li>
+            
+            <li class="flex items-start space-x-3">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-slate-100 text-slate-700 font-bold flex items-center justify-center text-xs mt-0.5">B</span>
+              <div>
+                <strong class="text-slate-800">Buka Berkas APK:</strong>
+                <p>Setelah pengunduhan selesai, buka berkas melalui notifikasi download atau melalui aplikasi <em>File Manager</em> di folder <em>Download</em>.</p>
+              </div>
+            </li>
+
+            <li class="flex items-start space-x-3">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-slate-100 text-slate-700 font-bold flex items-center justify-center text-xs mt-0.5">C</span>
+              <div>
+                <strong class="text-slate-800">Izinkan Sumber Tidak Dikenal:</strong>
+                <p>Jika muncul peringatan keamanan sistem Android, pilih <em>Setelan (Settings)</em> lalu centang/aktifkan <em>"Izinkan dari sumber ini" (Install unknown apps)</em>.</p>
+              </div>
+            </li>
+
+            <li class="flex items-start space-x-3">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-slate-100 text-slate-700 font-bold flex items-center justify-center text-xs mt-0.5">D</span>
+              <div>
+                <strong class="text-slate-800">Pasang & Buka Aplikasi:</strong>
+                <p>Tekan tombol <em>Instal (Install)</em> dan tunggu beberapa saat hingga muncul notifikasi <em>"Aplikasi terpasang"</em>. Tekan <em>Buka (Open)</em>.</p>
+              </div>
+            </li>
+
+            <li class="flex items-start space-x-3">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-slate-100 text-slate-700 font-bold flex items-center justify-center text-xs mt-0.5">E</span>
+              <div>
+                <strong class="text-slate-800">Izinkan Hak Akses Lokasi (GPS):</strong>
+                <p>Saat aplikasi meminta izin lokasi, pilih <em>"Saat aplikasi digunakan" (While using the app)</em> agar fitur pelacakan rute berfungsi.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Step 2: Usage Guide -->
+        <div class="glass-card rounded-2xl p-8 border border-slate-200 shadow-sm">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">2</div>
+            <h3 class="text-xl font-bold text-slate-900">Panduan Fitur Aplikasi Mobile</h3>
+          </div>
+
+          <div class="space-y-4 text-sm text-slate-600">
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <h4 class="font-bold text-slate-800 flex items-center gap-2 mb-1">
+                <i data-lucide="hand" class="w-4 h-4 text-brand-600"></i>
+                Navigasi Gestur Layar Sentuh
+              </h4>
+              <p>Gunakan 1 jari untuk menggeser posisi peta, 2 jari cubit (pinch) untuk zoom in/out, 2 jari putar untuk mengubah orientasi kompas, dan 2 jari geser ke atas untuk melihat kemiringan 3D.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <h4 class="font-bold text-slate-800 flex items-center gap-2 mb-1">
+                <i data-lucide="crosshair" class="w-4 h-4 text-emerald-600"></i>
+                Tombol Pelacakan GPS (Lingkaran Biru)
+              </h4>
+              <p>Tekan tombol GPS di pojok kanan bawah layar untuk mengarahkan kamera langsung ke posisi koordinat fisik Anda saat ini.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <h4 class="font-bold text-slate-800 flex items-center gap-2 mb-1">
+                <i data-lucide="info" class="w-4 h-4 text-amber-600"></i>
+                Pemeriksaan Atribut Spasial Objek
+              </h4>
+              <p>Sentuh salah satu poligon gedung (misal Gedung Pos, Rektorat, atau Vokasi) untuk memunculkan kartu informasi nama gedung dan koordinat geografisnya.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <h4 class="font-bold text-slate-800 flex items-center gap-2 mb-1">
+                <i data-lucide="layers" class="w-4 h-4 text-purple-600"></i>
+                Ganti Tampilan Basemap
+              </h4>
+              <p>Tekan tombol tumpukan layer di atas tombol GPS untuk berganti antara mode peta OpenStreetMap standard dan peta vektor kontur.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Tentang Mahasiswa & Identitas Proyek -->
+  <section id="tentang" class="py-12 bg-slate-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-brand-400">Identitas Pengembang</span>
+          <h3 class="text-2xl font-bold tracking-tight mt-1">Zahra Ramanayshilla</h3>
+          <p class="text-sm text-slate-400 mt-2">
+            NPM: <strong>714240003</strong><br />
+            Mata Kuliah: <strong>Sistem Informasi Geografis (SIG) — Semester 5</strong><br />
+            Program Studi D4 Teknik Informatika / Sistem Informasi<br />
+            <strong>Universitas Logistik dan Bisnis Internasional (ULBI)</strong> Bandung
+          </p>
+        </div>
+
+        <div class="md:text-right space-y-3">
+          <p class="text-xs text-slate-400">Teknologi yang Digunakan:</p>
+          <div class="flex flex-wrap md:justify-end gap-2 text-xs">
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-sky-400">MapLibre Native Android</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-emerald-400">MapLibre GL JS</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-amber-400">CrootJS (jscroot)</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-purple-400">GitHub Actions CI/CD</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-rose-400">Kotlin & Gradle</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-6 bg-slate-950 text-slate-500 text-xs border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>&copy; 2026 SIG Mapdroid — Zahra Ramanayshilla. Dilisensikan di bawah lisensi terbuka.</p>
+      <div class="flex items-center space-x-6">
+        <a href="https://maplibre.org" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 transition">MapLibre.org</a>
+        <a href="https://github.com/jscroot" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 transition">CrootJS</a>
+        <a href="https://github.com/zahraramanayshilla/SIG_Mapdroid" target="_blank" rel="noopener noreferrer" class="hover:text-slate-300 transition flex items-center gap-1">
+          <i data-lucide="github" class="w-3.5 h-3.5"></i>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script Modules -->
+  <script type="module" src="js/main.js"></script>
+  <script>
+    // Inisialisasi ikon Lucide
+    lucide.createIcons();
+  </script>
+</body>
+</html>
